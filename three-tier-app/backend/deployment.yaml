@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: three-tier-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/kishoredurai/three-tier-applications/backend:5
+          ports:
+            - containerPort: 3500
+          env:
+            - name: MYSQL_HOST
+              value: mysql-service
+            - name: MYSQL_USER
+              value: root
+            - name: MYSQL_PASSWORD
+              value: mysql123
+            - name: MYSQL_DATABASE
+              value: school

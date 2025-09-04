@@ -20,3 +20,4 @@ spec:
     app.kubernetes.io/instance: kargo
     app.kubernetes.io/name: kargo
   type: LoadBalancer
+ 

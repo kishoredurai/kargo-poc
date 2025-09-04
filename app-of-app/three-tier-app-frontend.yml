@@ -9,15 +9,15 @@ spec:
   source:
     repoURL: https://github.com/kishoredurai/kargo-poc
     targetRevision: master
-    path: ./three-tier-app/frontend
+    path: three-tier-app/frontend
 
-  destination: 
-    server: https://kubernetes.default.svc
+  destination:
     namespace: three-tier-app
+    server: https://kubernetes.default.svc
 
   syncPolicy:
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
 
     automated:
       selfHeal: true

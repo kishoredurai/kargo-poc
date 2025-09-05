@@ -86,9 +86,10 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: three-tier-app-backend-prod
+        name: three-tier-app-backend
       sources:
-        direct: true
+        stages:
+          - three-tier-app-backend-qa
   promotionTemplate:
     spec:
       steps:

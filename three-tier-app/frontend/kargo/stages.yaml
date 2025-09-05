@@ -1,0 +1,147 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: three-tier-app-frontend-dev
+  namespace: three-tier-app
+  labels:
+    app: three-tier-app-frontend
+    env: dev
+  annotations:
+    kargo.akuity.io/color: violet
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: three-tier-app-frontend
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: argo-kustomize-update-image
+          vars:
+            - name: openpr
+              value: "true"
+            - name: env
+              value: "dev"
+            - name: warehouseImage
+              value: "ghcr.io/kishoredurai/three-tier-applications/frontend"
+            - name: valuesFileAbsolutePath
+              value: three-tier-app/frontend/overlay/dev/kustomization.yaml
+            - name: syncArgoApp
+              value: "true"
+            - name: argoAppName
+              value: "three-tier-app-frontend-dev"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: three-tier-app-frontend-qa
+  namespace: three-tier-app
+  labels:
+    app: three-tier-app-frontend
+    env: qa
+  annotations:
+    kargo.akuity.io/color: yellow
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name:  three-tier-app-frontend
+      sources:
+        stages:
+          - three-tier-app-frontend-dev
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: argo-kustomize-update-image
+          vars:
+            - name: openpr
+              value: "true"
+            - name: env
+              value: "qa"
+            - name: warehouseImage
+              value: "ghcr.io/kishoredurai/three-tier-applications/frontend"
+            - name: valuesFileAbsolutePath
+              value: three-tier-app/frontend/overlay/qa/kustomization.yaml
+            - name: syncArgoApp
+              value: "true"
+            - name: argoAppName
+              value: "three-tier-app-frontend-qa"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: three-tier-app-frontend-stage
+  namespace: three-tier-app
+  labels:
+    app: three-tier-app-frontend
+    env: stage
+  annotations:
+    kargo.akuity.io/color: blue
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: three-tier-app-frontend
+      sources:
+        stages:
+          - three-tier-app-frontend-qa
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: argo-kustomize-update-image
+          vars:
+            - name: openpr
+              value: "true"
+            - name: env
+              value: "stage"
+            - name: warehouseImage
+              value: "ghcr.io/kishoredurai/three-tier-applications/frontend"
+            - name: valuesFileAbsolutePath
+              value: three-tier-app/frontend/overlay/stage/kustomization.yaml
+            - name: syncArgoApp
+              value: "true"
+            - name: argoAppName
+              value: "three-tier-app-frontend-stage"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: three-tier-app-frontend-prod
+  namespace: three-tier-app
+  labels:
+    app: three-tier-app-frontend
+    env: prod
+  annotations:
+    kargo.akuity.io/color: green
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: three-tier-app-frontend
+      sources:
+        stages:
+          - three-tier-app-frontend-stage
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: argo-kustomize-update-image
+          vars:
+            - name: openpr
+              value: "true"
+            - name: env
+              value: "prod"
+            - name: warehouseImage
+              value: "ghcr.io/kishoredurai/three-tier-applications/frontend"
+            - name: valuesFileAbsolutePath
+              value: three-tier-app/frontend/overlay/prod/kustomization.yaml
+            - name: syncArgoApp
+              value: "false"
+            - name: argoAppName
+              value: "three-tier-app-frontend-prod"

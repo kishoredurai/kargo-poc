@@ -15,8 +15,8 @@ spec:
             path: three-tier-app/frontend/overlay/stage
           - name: prod
             path: three-tier-app/frontend/overlay/prod
-          # - name: kargo
-          #   path: three-tier-app/frontend/kargo
+          - name: kargo
+            path: three-tier-app/frontend/kargo
   template:
     metadata:
       name: three-tier-app-frontend-{{name}}

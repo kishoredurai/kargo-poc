@@ -1,0 +1,12 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: three-tier-app-frontend
+  namespace: three-tier-app
+spec:
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/kishoredurai/three-tier-applications/frontend
+        imageSelectionStrategy: NewestBuild
+

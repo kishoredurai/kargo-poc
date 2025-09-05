@@ -33,10 +33,5 @@ spec:
       destination:
         namespace: three-tier-app
         server: https://kubernetes.default.svc
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=true
-        automated:
-          selfHeal: true
-          prune: true
+
       

@@ -19,4 +19,4 @@ patches:
       value: frontend-service-dev
 images:
 - name: ghcr.io/kishoredurai/three-tier-applications/frontend
-  newTag: 1.0.8
+  newTag: 1.0.7

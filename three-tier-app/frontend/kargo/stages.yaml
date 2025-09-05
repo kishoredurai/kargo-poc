@@ -29,7 +29,7 @@ spec:
             - name: warehouseImage
               value: "ghcr.io/kishoredurai/three-tier-applications/frontend"
             - name: valuesFileAbsolutePath
-              value: three-tier-app/frontend/overlay/dev/kustomization.yaml
+              value: three-tier-app/frontend/overlay/dev
             - name: syncArgoApp
               value: "true"
             - name: argoAppName
@@ -66,7 +66,7 @@ spec:
             - name: warehouseImage
               value: "ghcr.io/kishoredurai/three-tier-applications/frontend"
             - name: valuesFileAbsolutePath
-              value: three-tier-app/frontend/overlay/qa/kustomization.yaml
+              value: three-tier-app/frontend/overlay/qa
             - name: syncArgoApp
               value: "true"
             - name: argoAppName
@@ -103,7 +103,7 @@ spec:
             - name: warehouseImage
               value: "ghcr.io/kishoredurai/three-tier-applications/frontend"
             - name: valuesFileAbsolutePath
-              value: three-tier-app/frontend/overlay/stage/kustomization.yaml
+              value: three-tier-app/frontend/overlay/stage
             - name: syncArgoApp
               value: "true"
             - name: argoAppName
@@ -140,7 +140,7 @@ spec:
             - name: warehouseImage
               value: "ghcr.io/kishoredurai/three-tier-applications/frontend"
             - name: valuesFileAbsolutePath
-              value: three-tier-app/frontend/overlay/prod/kustomization.yaml
+              value: three-tier-app/frontend/overlay/prod
             - name: syncArgoApp
               value: "false"
             - name: argoAppName

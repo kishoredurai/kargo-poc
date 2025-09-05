@@ -2,7 +2,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: PromotionTask
 metadata:
-  name: argo-kustomize-update-image-frontend
+  name: argo-kustomize-update-image
   namespace: three-tier-app
 spec:
   vars:
@@ -36,9 +36,8 @@ spec:
       config:
         path: ./src/${{ vars.valuesFileAbsolutePath }}
         images:
-        - image: ${{ vars.warehouseImage }}
-          tag: ${{ imageFrom( vars.warehouseImage ).Tag }}
-
+          - image: ${{ vars.warehouseImage }}
+            tag: "${{ imageFrom( vars.warehouseImage ).Tag }}"
 
     # Commit the changes to the Git repository.
     - uses: git-commit
@@ -47,7 +46,7 @@ spec:
         path: ./src
         message: "(${{ vars.argoAppName }}-${{ vars.env }}): upgrade image to ${{ imageFrom( vars.warehouseImage ).Tag }}"
         author:
-          name: Kargo
+          name: kishoredurai7
           email: kishoredurai7@gmail.com
 
     # Push the changes to the Git repository.

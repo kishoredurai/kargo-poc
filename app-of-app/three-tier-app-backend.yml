@@ -23,7 +23,7 @@ spec:
       labels:
         app.kubernetes.io/name: three-tier-app-backend
       annotations:
-        kargo.akuity.io/authorized-stage: 'three-tier-app:three-tier-app-backend-{{name}}'
+        kargo.akuity.io/authorized-stage: 'app-deployment:three-tier-app-backend-{{name}}'
     spec:
       project: app-deployment
       source:

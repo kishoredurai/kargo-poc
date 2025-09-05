@@ -46,7 +46,7 @@ spec:
         path: ./src
         message: "(${{ vars.argoAppName }}-${{ vars.env }}): upgrade image to ${{ imageFrom( vars.warehouseImage ).Tag }}"
         author:
-          name: Kargo
+          name: kishoredurai7
           email: kishoredurai7@gmail.com
 
     # Push the changes to the Git repository.

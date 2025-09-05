@@ -1,23 +1,20 @@
 resources:
-  - ../../base
-
+- ../../base
 patches:
-  - target:
-      kind: Deployment
-      name: frontend
-    patch: |-
-      - op: replace
-        path: /metadata/name
-        value: frontend-prod
-
-  - target:
-      kind: Service
-      name: frontend-service
-    patch: |-
-      - op: replace
-        path: /metadata/name
-        value: frontend-service-prod
-
+- target:
+    kind: Deployment
+    name: frontend
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: frontend-prod
+- target:
+    kind: Service
+    name: frontend-service
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: frontend-service-prod
 images:
 - name: ghcr.io/kishoredurai/three-tier-applications/frontend
-  newTag: "5"
+  newTag: 1.0.7

@@ -4,9 +4,14 @@ metadata:
   name: appset-of-appsets
   namespace: argocd   # <-- this must be in argocd, so ArgoCD can see it
 spec:
+  generators:
+    - list:
+        elements:
+          - name: backend
+            path: manifests/applicationsets/backend
   template:
     metadata:
-      name: Application-Deployment
+      name: appset-{{name}}
     spec:
       project: app-deployment
       source:

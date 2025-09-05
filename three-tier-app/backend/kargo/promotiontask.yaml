@@ -37,7 +37,7 @@ spec:
         path: ./src/${{ vars.valuesFileAbsolutePath }}
         images:
         - image: ${{ vars.warehouseImage }}
-          tag: ${{ imageFrom( vars.warehouseImage ).Tag }}
+          tag: '${{ imageFrom( vars.warehouseImage ).Tag }}'
 
 
     # Commit the changes to the Git repository.

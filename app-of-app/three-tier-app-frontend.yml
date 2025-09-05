@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -10,6 +11,33 @@ spec:
     repoURL: https://github.com/kishoredurai/kargo-poc
     targetRevision: master
     path: three-tier-app/frontend
+
+  destination:
+    namespace: three-tier-app
+    server: https://kubernetes.default.svc
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
+
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: three-tier-app-frontend-kargo
+  namespace: argocd
+spec:
+  project: app-deployment
+
+  source:
+    repoURL: https://github.com/kishoredurai/kargo-poc
+    targetRevision: master
+    path: three-tier-app/frontend/kargo
 
   destination:
     namespace: three-tier-app

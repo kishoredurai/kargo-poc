@@ -36,9 +36,8 @@ spec:
       config:
         path: ./src/${{ vars.valuesFileAbsolutePath }}
         images:
-        - image: ${{ vars.warehouseImage }}
-          tag: '${{ imageFrom( vars.warehouseImage ).Tag }}'
-
+          - image: ${{ vars.warehouseImage }}
+            tag: ${{ imageFrom( vars.warehouseImage ).Tag }}
 
     # Commit the changes to the Git repository.
     - uses: git-commit

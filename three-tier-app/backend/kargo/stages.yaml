@@ -3,7 +3,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: three-tier-app-backend-dev
-  namespace: cdp
+  namespace: three-tier-app
   labels:
     app: three-tier-app-backend
     env: dev
@@ -39,7 +39,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: three-tier-app-backend-qa
-  namespace: cdp
+  namespace: three-tier-app
   labels:
     app: three-tier-app-backend
     env: qa
@@ -75,8 +75,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: three-tier-app-backend-use1-stage
-  namespace: cdp
+  name: three-tier-app-backend-stage
+  namespace: three-tier-app
   labels:
     app: three-tier-app-backend
     env: stage
@@ -112,7 +112,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: three-tier-app-backend-prod
-  namespace: cdp
+  namespace: three-tier-app
   labels:
     app: three-tier-app-backend
     env: prod

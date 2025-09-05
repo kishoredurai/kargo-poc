@@ -1,29 +1,34 @@
----
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
   name: three-tier-app-frontend
   namespace: argocd
 spec:
-  project: app-deployment
-
-  source:
-    repoURL: https://github.com/kishoredurai/kargo-poc
-    targetRevision: master
-    path: three-tier-app/frontend
-
-  destination:
-    namespace: three-tier-app
-    server: https://kubernetes.default.svc
-
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
-
-    automated:
-      selfHeal: true
-      prune: true
-
+  generators:
+    - list:
+        elements:
+          - name: dev
+          - name: qa
+          - name: stage
+          - name: prod
+  template:
+    metadata:
+      name: three-tier-app-frontend-{{name}}
+    spec:
+      project: app-deployment
+      source:
+        repoURL: https://github.com/kishoredurai/kargo-poc
+        targetRevision: master
+        path: three-tier-app/frontend/overlay/{{name}}
+      destination:
+        namespace: three-tier-app
+        server: https://kubernetes.default.svc
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          selfHeal: true
+          prune: true
 
 ---
 apiVersion: argoproj.io/v1alpha1

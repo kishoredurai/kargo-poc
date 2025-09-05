@@ -4,6 +4,3 @@ namespace: three-tier-app
 resources:
   - deployment.yaml
   - service.yaml
-images:
-- name: ghcr.io/kishoredurai/three-tier-applications/frontend
-  newTag: "5"

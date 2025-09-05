@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: three-tier-app-backend
-  namespace: argocd
+  namespace: three-tier-app
 spec:
   generators:
     - list:
@@ -20,10 +20,11 @@ spec:
   template:
     metadata:
       name: three-tier-app-backend-{{name}}
+      namespace: three-tier-app
       labels:
         app.kubernetes.io/name: three-tier-app-backend
       annotations:
-        kargo.akuity.io/authorized-stage: 'app-deployment:three-tier-app-backend-{{name}}'
+        kargo.akuity.io/authorized-stage: 'three-tier-app:three-tier-app-backend-{{name}}'
     spec:
       project: app-deployment
       source:
@@ -36,3 +37,6 @@ spec:
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
+        automated:
+          selfHeal: true
+          prune: true

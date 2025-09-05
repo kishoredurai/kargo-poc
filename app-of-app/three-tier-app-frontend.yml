@@ -20,6 +20,10 @@ spec:
   template:
     metadata:
       name: three-tier-app-frontend-{{name}}
+    labels:
+      app.kubernetes.io/name: three-tier-app-frontend
+    annotations:
+      kargo.akuity.io/authorized-stage: 'three-tier-app:three-tier-app-frontend-{{name}}'
     spec:
       project: app-deployment
       source:

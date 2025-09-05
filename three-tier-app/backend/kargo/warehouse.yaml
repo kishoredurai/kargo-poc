@@ -7,6 +7,6 @@ metadata:
 spec:
   subscriptions:
     - image:
-        repoURL: ghcr.io/kishoredurai/three-tier-applications/frontend
+        repoURL: ghcr.io/kishoredurai/three-tier-applications/backend
         imageSelectionStrategy: NewestBuild
 

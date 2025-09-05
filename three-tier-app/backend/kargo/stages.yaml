@@ -13,32 +13,32 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: three-tier-app-backend-dev
+        name: three-tier-app-backend
       sources:
         direct: true
   promotionTemplate:
     spec:
       steps:
         - task:
-            name: argo-helm-update-image
+            name: argo-kustomize-update-image
           vars:
             - name: openpr
               value: "true"
             - name: env
               value: "dev"
             - name: warehouseImage
-              value: "harbor.use1.prod.admin.aws.viacbs.tech/enterprise.ghcr.io/vss-cms/three-tier-app-backend/app"
+              value: "ghcr.io/kishoredurai/three-tier-applications/backend"
             - name: valuesFileAbsolutePath
               value: three-tier-app/backend/overlay/dev/kustomization.yaml
             - name: syncArgoApp
               value: "true"
             - name: argoAppName
-              value: "gke-v2-k8s-app-use1-dev-three-tier-app-backend"
+              value: "three-tier-app-backend-dev"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: three-tier-app-backend-use1-qa
+  name: three-tier-app-backend-qa
   namespace: cdp
   labels:
     app: three-tier-app-backend
@@ -49,28 +49,28 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: three-tier-app-backend-dev
+        name:  three-tier-app-backend
       sources:
         stages:
-          - three-tier-app-backend-use1-dev
+          - three-tier-app-backend-dev
   promotionTemplate:
     spec:
       steps:
         - task:
-            name: argo-helm-update-image
+            name: argo-kustomize-update-image
           vars:
             - name: openpr
               value: "true"
             - name: env
               value: "qa"
             - name: warehouseImage
-              value: "harbor.use1.prod.admin.aws.viacbs.tech/enterprise.ghcr.io/vss-cms/three-tier-app-backend/app"
+              value: "ghcr.io/kishoredurai/three-tier-applications/backend"
             - name: valuesFileAbsolutePath
-              value: cmscore/three-tier-app-backend/values-qa.yaml
+              value: three-tier-app/backend/overlay/qa/kustomization.yaml
             - name: syncArgoApp
               value: "true"
             - name: argoAppName
-              value: "gke-v2-k8s-app-use1-qa-three-tier-app-backend"
+              value: "three-tier-app-backend-qa"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -93,25 +93,25 @@ spec:
     spec:
       steps:
         - task:
-            name: argo-helm-update-image
+            name: argo-kustomize-update-image
           vars:
             - name: openpr
               value: "true"
             - name: env
               value: "stage"
             - name: warehouseImage
-              value: "harbor.use1.prod.admin.aws.viacbs.tech/enterprise.ghcr.io/vss-cms/three-tier-app-backend/app"
+              value: "ghcr.io/kishoredurai/three-tier-applications/backend"
             - name: valuesFileAbsolutePath
-              value: cmscore/three-tier-app-backend/values-stage.yaml
+              value: three-tier-app/backend/overlay/stage/kustomization.yaml
             - name: syncArgoApp
               value: "true"
             - name: argoAppName
-              value: "gke-v2-k8s-app-use1-stage-three-tier-app-backend"
+              value: "three-tier-app-backend-stage"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: three-tier-app-backend-use1-prod
+  name: three-tier-app-backend-prod
   namespace: cdp
   labels:
     app: three-tier-app-backend
@@ -122,25 +122,25 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: three-tier-app-backend-prod
+        name: three-tier-app-backend
       sources:
         stages:
-          - three-tier-app-backend-use1-stage
+          - three-tier-app-backend-stage
   promotionTemplate:
     spec:
       steps:
         - task:
-            name: argo-helm-update-image
+            name: argo-kustomize-update-image
           vars:
             - name: openpr
               value: "true"
             - name: env
               value: "prod"
             - name: warehouseImage
-              value: "harbor.use1.prod.admin.aws.viacbs.tech/enterprise.ghcr.io/vss-cms/three-tier-app-backend/app"
+              value: "ghcr.io/kishoredurai/three-tier-applications/backend"
             - name: valuesFileAbsolutePath
-              value: cmscore/three-tier-app-backend/values-prod.yaml
+              value: three-tier-app/backend/overlay/prod/kustomization.yaml
             - name: syncArgoApp
               value: "false"
             - name: argoAppName
-              value: "gke-v2-k8s-app-use1-prod-three-tier-app-backend"
+              value: "three-tier-app-backend-prod"

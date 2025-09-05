@@ -1,0 +1,97 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: PromotionTask
+metadata:
+  name: argo-kustomize-update-image
+  namespace: three-tier-app
+spec:
+  vars:
+    - name: branch
+      value: master
+    - name: repoURL
+      value: https://github.com/kishoredurai/three-tier-applications.git
+    - name: namespace
+      value: "three-tier-app"
+    - name: env
+    - name: openPR
+      value: "true"
+    - name: syncArgoApp
+      value: "false"
+    - name: valuesFileAbsolutePath
+    - name: argoAppName
+    - name: warehouseImage
+
+  steps:
+    # Clone the Git repository that contains the Kustomize configuration
+    # to the ./src directory.
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.repoURL }}
+        checkout:
+          - branch: ${{ vars.branch }}
+            path: ./src
+
+
+    - uses: kustomize-set-image
+      config:
+        path: ./src/${{ vars.valuesFileAbsolutePath }}
+        images:
+        - image: ${{ vars.warehouseImage }}
+          tag: ${{ imageFrom( vars.warehouseImage ).Tag }}
+
+
+    # Commit the changes to the Git repository.
+    - uses: git-commit
+      as: commit
+      config:
+        path: ./src
+        message: "(${{ vars.argoAppName }}-${{ vars.env }}): upgrade image to ${{ imageFrom( vars.warehouseImage ).Tag }}"
+        author:
+          name: Kargo
+          email: kishoredurai7@gmail.com
+
+    # Push the changes to the Git repository.
+    - uses: git-push
+      if: ${{ vars.openPR != 'true' && status('commit') != 'Skipped' }}
+      config:
+        path: ./src
+
+    # Push the changes to a newly created branch in the Git repository.
+    - uses: git-push
+      if: ${{ vars.openPR == 'true' && status('commit') != 'Skipped' }}
+      as: push
+      config:
+        path: ./src
+        generateTargetBranch: true
+
+    # Open a pull request to merge the changes into the main branch.
+    - uses: git-open-pr
+      as: open-pr
+      if: ${{ vars.openPR == 'true' && status('commit') != 'Skipped' }}
+      config:
+        repoURL: ${{ vars.repoURL }}
+        title: "(${{ vars.argoAppName }}-${{ vars.env }}): upgrade image to ${{ imageFrom( vars.warehouseImage ).Tag }}"
+        labels: ["kargo-publish-image"]
+        createTargetBranch: true
+        sourceBranch: ${{ task.outputs.push.branch }}
+        targetBranch: ${{ vars.branch }}
+
+    # Wait for the pull request to be merged.
+    - uses: git-wait-for-pr
+      as: wait-for-pr
+      if: ${{ vars.openPR == 'true' && status('commit') != 'Skipped' }}
+      config:
+        repoURL: ${{ vars.repoURL }}
+        prNumber: ${{ task.outputs['open-pr'].pr.id }}
+
+    # Trigger sync for ArgoCD
+    - uses: argocd-update
+      if: ${{ vars.syncArgoApp == 'true' && status('commit') == 'Succeeded' }}
+      config:
+        apps:
+          - name: ${{ vars.argoAppName }}
+            namespace: ${{ vars.namespace }}
+            sources:
+              - repoURL: ${{ vars.repoURL }}
+                desiredRevision: ${{ task.outputs['commit'].commit }}
+                updateTargetRevision: true

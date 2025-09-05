@@ -40,7 +40,7 @@ spec:
     path: three-tier-app/frontend/kargo
 
   destination:
-    namespace: three-tier-app
+    namespace: kargo
     server: https://kubernetes.default.svc
 
   syncPolicy:

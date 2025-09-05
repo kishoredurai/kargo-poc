@@ -2,6 +2,8 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
   name: three-tier-app
-  # annotations:
-  #   # This annotation ensures Projects (Namespaces) are created first when deployed via Argo CD
-  #   argocd.argoproj.io/sync-wave: "-1"
+  annotations:
+    # This annotation ensures Projects (Namespaces) are created first when deployed via Argo CD
+    argocd.argoproj.io/sync-wave: "-1"
+    # Prevents namespace deletion if the respective project is deleted
+    kargo.akuity.io/keep-namespace: "true"

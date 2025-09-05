@@ -8,9 +8,15 @@ spec:
     - list:
         elements:
           - name: dev
+            path: three-tier-app/frontend/overlay/dev
           - name: qa
+            path: three-tier-app/frontend/overlay/qa
           - name: stage
+            path: three-tier-app/frontend/overlay/stage
           - name: prod
+            path: three-tier-app/frontend/overlay/prod
+          # - name: kargo
+          #   path: three-tier-app/frontend/kargo
   template:
     metadata:
       name: three-tier-app-frontend-{{name}}
@@ -19,13 +25,10 @@ spec:
       source:
         repoURL: https://github.com/kishoredurai/kargo-poc
         targetRevision: master
-        path: three-tier-app/frontend/overlay/{{name}}
+        path: '{{path}}'
       destination:
         namespace: three-tier-app
         server: https://kubernetes.default.svc
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
-        automated:
-          selfHeal: true
-          prune: true

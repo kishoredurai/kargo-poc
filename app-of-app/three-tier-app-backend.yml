@@ -1,4 +1,3 @@
----
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -9,9 +8,15 @@ spec:
     - list:
         elements:
           - name: dev
+            path: three-tier-app/backend/overlay/dev
           - name: qa
+            path: three-tier-app/backend/overlay/qa
           - name: stage
+            path: three-tier-app/backend/overlay/stage
           - name: prod
+            path: three-tier-app/backend/overlay/prod
+          - name: kargo
+            path: three-tier-app/backend/kargo
   template:
     metadata:
       name: three-tier-app-backend-{{name}}
@@ -20,13 +25,10 @@ spec:
       source:
         repoURL: https://github.com/kishoredurai/kargo-poc
         targetRevision: master
-        path: three-tier-app/backend/overlay/{{name}}
+        path: '{{path}}'
       destination:
         namespace: three-tier-app
         server: https://kubernetes.default.svc
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
-        automated:
-          selfHeal: true
-          prune: true

@@ -1,0 +1,146 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: three-tier-app-backend-dev
+  namespace: cdp
+  labels:
+    app: three-tier-app-backend
+    env: dev
+  annotations:
+    kargo.akuity.io/color: violet
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: three-tier-app-backend-dev
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: argo-helm-update-image
+          vars:
+            - name: openpr
+              value: "true"
+            - name: env
+              value: "dev"
+            - name: warehouseImage
+              value: "harbor.use1.prod.admin.aws.viacbs.tech/enterprise.ghcr.io/vss-cms/three-tier-app-backend/app"
+            - name: valuesFileAbsolutePath
+              value: three-tier-app/backend/overlay/dev/kustomization.yaml
+            - name: syncArgoApp
+              value: "true"
+            - name: argoAppName
+              value: "gke-v2-k8s-app-use1-dev-three-tier-app-backend"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: three-tier-app-backend-use1-qa
+  namespace: cdp
+  labels:
+    app: three-tier-app-backend
+    env: qa
+  annotations:
+    kargo.akuity.io/color: yellow
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: three-tier-app-backend-dev
+      sources:
+        stages:
+          - three-tier-app-backend-use1-dev
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: argo-helm-update-image
+          vars:
+            - name: openpr
+              value: "true"
+            - name: env
+              value: "qa"
+            - name: warehouseImage
+              value: "harbor.use1.prod.admin.aws.viacbs.tech/enterprise.ghcr.io/vss-cms/three-tier-app-backend/app"
+            - name: valuesFileAbsolutePath
+              value: cmscore/three-tier-app-backend/values-qa.yaml
+            - name: syncArgoApp
+              value: "true"
+            - name: argoAppName
+              value: "gke-v2-k8s-app-use1-qa-three-tier-app-backend"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: three-tier-app-backend-use1-stage
+  namespace: cdp
+  labels:
+    app: three-tier-app-backend
+    env: stage
+  annotations:
+    kargo.akuity.io/color: blue
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: three-tier-app-backend-prod
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: argo-helm-update-image
+          vars:
+            - name: openpr
+              value: "true"
+            - name: env
+              value: "stage"
+            - name: warehouseImage
+              value: "harbor.use1.prod.admin.aws.viacbs.tech/enterprise.ghcr.io/vss-cms/three-tier-app-backend/app"
+            - name: valuesFileAbsolutePath
+              value: cmscore/three-tier-app-backend/values-stage.yaml
+            - name: syncArgoApp
+              value: "true"
+            - name: argoAppName
+              value: "gke-v2-k8s-app-use1-stage-three-tier-app-backend"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: three-tier-app-backend-use1-prod
+  namespace: cdp
+  labels:
+    app: three-tier-app-backend
+    env: prod
+  annotations:
+    kargo.akuity.io/color: green
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: three-tier-app-backend-prod
+      sources:
+        stages:
+          - three-tier-app-backend-use1-stage
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: argo-helm-update-image
+          vars:
+            - name: openpr
+              value: "true"
+            - name: env
+              value: "prod"
+            - name: warehouseImage
+              value: "harbor.use1.prod.admin.aws.viacbs.tech/enterprise.ghcr.io/vss-cms/three-tier-app-backend/app"
+            - name: valuesFileAbsolutePath
+              value: cmscore/three-tier-app-backend/values-prod.yaml
+            - name: syncArgoApp
+              value: "false"
+            - name: argoAppName
+              value: "gke-v2-k8s-app-use1-prod-three-tier-app-backend"

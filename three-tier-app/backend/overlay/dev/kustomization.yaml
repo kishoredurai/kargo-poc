@@ -16,4 +16,4 @@ patches:
   patch: "- op: replace\n  path: /metadata/name\n  value: backend-service-dev\n  "
 images:
 - name: ghcr.io/kishoredurai/three-tier-applications/backend
-  newTag: 1.0.7
+  newTag: 1.0.8

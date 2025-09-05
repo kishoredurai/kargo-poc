@@ -1,0 +1,23 @@
+resources:
+  - ../../base
+
+patches:
+  - target:
+      kind: Deployment
+      name: backend
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: backend-prod
+
+  - target:
+      kind: Service
+      name: backend-service
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: backend-service-prod
+
+images:
+- name: ghcr.io/kishoredurai/three-tier-applications/backend
+  newTag: "5"

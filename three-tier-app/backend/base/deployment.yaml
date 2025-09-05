@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: three-tier-app
 spec:
   replicas: 1
   selector:
@@ -16,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/kishoredurai/three-tier-applications/backend:5
+          image: ghcr.io/kishoredurai/three-tier-applications/backend:1
           ports:
             - containerPort: 3500
           env:

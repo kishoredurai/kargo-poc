@@ -2,7 +2,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: PromotionTask
 metadata:
-  name: argo-kustomize-update-image
+  name: argo-kustomize-update-image-frontend
   namespace: three-tier-app
 spec:
   vars:

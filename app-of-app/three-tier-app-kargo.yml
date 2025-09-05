@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: three-tier-app-frontend-kargo
+  name: three-tier-app-kargo-project
   namespace: argocd
 spec:
   project: app-deployment

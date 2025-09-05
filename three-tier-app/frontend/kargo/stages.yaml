@@ -20,7 +20,7 @@ spec:
     spec:
       steps:
         - task:
-            name: argo-kustomize-update-image
+            name: argo-kustomize-update-image-frontend
           vars:
             - name: openpr
               value: "true"
@@ -57,7 +57,7 @@ spec:
     spec:
       steps:
         - task:
-            name: argo-kustomize-update-image
+            name: argo-kustomize-update-image-frontend
           vars:
             - name: openpr
               value: "true"
@@ -94,7 +94,7 @@ spec:
     spec:
       steps:
         - task:
-            name: argo-kustomize-update-image
+            name: argo-kustomize-update-image-frontend
           vars:
             - name: openpr
               value: "true"
@@ -131,7 +131,7 @@ spec:
     spec:
       steps:
         - task:
-            name: argo-kustomize-update-image
+            name: argo-kustomize-update-image-frontend
           vars:
             - name: openpr
               value: "true"

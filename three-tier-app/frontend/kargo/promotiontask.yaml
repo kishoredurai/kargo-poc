@@ -11,7 +11,7 @@ spec:
     - name: repoURL
       value: https://github.com/kishoredurai/kargo-poc.git
     - name: namespace
-      value: "three-tier-app"
+      value: "argocd"
     - name: env
     - name: openPR
       value: "true"

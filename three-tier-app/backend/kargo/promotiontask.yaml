@@ -9,7 +9,7 @@ spec:
     - name: branch
       value: master
     - name: repoURL
-      value: https://github.com/kishoredurai/three-tier-applications.git
+      value: https://github.com/kishoredurai/kargo-poc.git
     - name: namespace
       value: "three-tier-app"
     - name: env

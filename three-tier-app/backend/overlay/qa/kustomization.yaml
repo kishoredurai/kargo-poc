@@ -19,4 +19,4 @@ patches:
       value: backend-service-qa
 images:
 - name: ghcr.io/kishoredurai/three-tier-applications/backend
-  newTag: 1.0.7
+  newTag: 1.0.8

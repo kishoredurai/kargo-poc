@@ -1,0 +1,25 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: three-tier-app # This should be same as Kargo Project name :(
+spec:
+  promotionPolicies:
+    ## Append stageSelectors if needed, below is just for testing.
+    - stageSelector:
+        matchLabels:
+          app: three-tier-app-backend
+        matchExpressions:
+          - key: env
+            operator: In
+            values: ["dev","qa","stage"]
+      autoPromotionEnabled: true
+
+    - stageSelector:
+        matchLabels:
+          app: three-tier-app-frontend
+        matchExpressions:
+          - key: env
+            operator: In
+            values: ["dev","qa","stage"]
+      autoPromotionEnabled: true
